@@ -1,0 +1,15 @@
+language: python
+python:
+  - "2.7"
+  - "3.3"
+  - "3.4"
+services:
+  - postgresql
+install: "pip install -r requirements.txt"
+env:
+  - PYTHONPATH=./
+before_script:
+  - psql -c 'create database chloroform;' -U postgres
+script:
+  - python ./samples/build_db.py
+  - python ./samples/test_db.py
