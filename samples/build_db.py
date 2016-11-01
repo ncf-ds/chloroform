@@ -7,6 +7,7 @@ import sys
 # adding root of project to sys path
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
+from app.models import *
 from app.database import db
 
 db.create_all()
