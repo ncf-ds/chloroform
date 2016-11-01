@@ -1,12 +1,4 @@
 from app.database import db
-from flask_sqlalchemy import SQLAlchemy
-
-# app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:postgres@localhost/cast_dev"
-# db = SQLAlchemy(app)
-
-
-
 
 class Choice(db.Model):
     id = db.Column(db.Integer, primary_key=True)
