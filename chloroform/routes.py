@@ -39,7 +39,6 @@ def index():
 def show(model_name, model_id,title):
     model = get_model_from_string(model_name)
     if (model_id):
-        print "here!"
         instance = model.query.get(model_id)
         return dump_to_json(instance)
     else:
