@@ -1,3 +1,4 @@
+
 from flask import Flask
 from flask import request
 from flask import jsonify
@@ -7,6 +8,7 @@ from app import models
 
 app = Flask(__name__)
 
+SUCCESS_MESSAGE = "success"
 
 def get_model_from_string(string_model):
     camelcase = ''.join(wrd.capitalize() or '_' for wrd in string_model.split('_'))
@@ -53,7 +55,7 @@ def create(model_name):
     instance = model(**request.form.to_dict())
     db.session.add(instance)
     db.session.commit()
-    return "success\n"
+    return jsonify({"message": SUCCESS_MESSAGE, "id": instance.id})
 
 
 # curl --data "name=updated_name" localhost:5000/clients/1
@@ -63,7 +65,8 @@ def update(model_name, model_id):
     instance = model.query.filter(model.id == model_id)
     instance.update(request.form)
     db.session.commit()
-    return "success\n"
+    return jsonify({"message": SUCCESS_MESSAGE})
+
 
 
 # curl -x "DELETE" localhost:5000/clients/1
@@ -73,13 +76,13 @@ def destroy(model_name, model_id):
     instance = model.query.filter(model.id == model_id)
     instance.delete()
     db.session.commit()
-    return "success\n"
+    return jsonify({"message": SUCCESS_MESSAGE})
 
 
 # curl localhost:5000/form/1/edit
 @app.route('/form/<int:form_id>/edit', methods=['GET'])
 def edit_form_load(form_id):
-    form = models.Form.query.filter(models.Form.id == form_id).first()
+    form = models.Form.query.get(form_id)
     return str(form.jsonify()) # TODO: make all jsonify()'s actually return json
 
 
