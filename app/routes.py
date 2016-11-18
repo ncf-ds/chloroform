@@ -13,6 +13,7 @@ def get_model_from_string(string_model):
     singular = camelcase[0:-1] # just removing the final character 's'
     return getattr(models, singular)
 
+
 def dump_to_json(py_object):
     if isinstance(py_object, list):        
         rows = py_object
@@ -44,6 +45,7 @@ def show(model_name, model_id):
     instance = model.query.get(model_id)
     return dump_to_json(instance)
 
+
 # curl --data "name=new_client" localhost:5000/clients
 @app.route('/<string:model_name>', methods=['POST'])
 def create(model_name):
@@ -52,6 +54,7 @@ def create(model_name):
     db.session.add(instance)
     db.session.commit()
     return "success\n"
+
 
 # curl --data "name=updated_name" localhost:5000/clients/1
 @app.route('/<string:model_name>/<int:model_id>', methods=['POST', 'PUT'])
@@ -71,6 +74,13 @@ def destroy(model_name, model_id):
     instance.delete()
     db.session.commit()
     return "success\n"
+
+
+# curl localhost:5000/form/1/edit
+@app.route('/form/<int:form_id>/edit', methods=['GET'])
+def edit_form_load(form_id):
+    form = models.Form.query.filter(models.Form.id == form_id).first()
+    return str(form.jsonify()) # TODO: make all jsonify()'s actually return json
 
 
 
