@@ -4,8 +4,8 @@ import sys
 # adding root of project to sys path
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from app.database import db
-from app.models import *
+from chloroform.database import db
+from chloroform.models import *
 
 
 
