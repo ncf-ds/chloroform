@@ -11,5 +11,16 @@ mainApp.controller('ClientCtrl', [ '$scope', '$http', 'searchService',
 			$scope.getClients = function(val) {
 				return searchService.searchModel('clients', val);
 			};
-
+            $scope.showClientNew = false;
+            $scope.clientNew= null;
+            $scope.createModel = function(model) {
+                return $http.post('/clients/'+model, '', {
+                    params : {}
+                }).then(function(response){
+                        console.log(response);
+                    return response.data.map(function(item){
+                        return item;
+                    });
+                });
+            };
 		} ]);

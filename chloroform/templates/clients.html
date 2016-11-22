@@ -9,4 +9,17 @@
 		<i class="glyphicon glyphicon-remove"></i> No Results Found
 	</div>
 	</div>
+    <div class="col-xs-4">
+	<button type="button" class="btn btn-primary" ng-model="showClientNew" 
+        uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
+        New Client 
+    </button>
+    <input type="text" ng-show="showClientNew" placeholder="new client name" ng-model='clientNew'> 
+    </div>
+    <div class="col-xs-4">
+	<button type="button" class="btn btn-primary" ng-model="saveClientNew" ng-show="showClientNew"
+        ng-click="createModel(clientNew)">
+        Save 
+    </button>
+
 </div>
