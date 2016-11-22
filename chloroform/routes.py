@@ -1,12 +1,9 @@
-
-from flask import Flask
 from flask import request
 from flask import jsonify
-
-from app.database import db
-from app import models
-
-app = Flask(__name__)
+from flask import Flask, render_template
+from chloroform import app
+from chloroform.database import db
+from chloroform import models
 
 SUCCESS_MESSAGE = "success"
 
@@ -32,20 +29,23 @@ def dump_to_json(py_object):
         return jsonify(row)
 
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
 # curl localhost:5000/clients
-@app.route('/<string:model_name>')
-def index(model_name):
-    model = get_model_from_string(model_name)
-    rows = model.query.all()
-    return dump_to_json(rows)
-
-
 # curl localhost:5000/clients/1
+@app.route('/<string:model_name>/', defaults={'model_id': None})
 @app.route('/<string:model_name>/<int:model_id>')
-def show(model_name, model_id):
+def show(model_name, model_id,title):
     model = get_model_from_string(model_name)
-    instance = model.query.get(model_id)
-    return dump_to_json(instance)
+    if (model_id):
+        instance = model.query.get(model_id)
+        return dump_to_json(instance)
+    else:
+        rows = model.query.all()
+        return dump_to_json(rows)
 
 
 # curl --data "name=new_client" localhost:5000/clients
@@ -84,6 +84,13 @@ def destroy(model_name, model_id):
 def edit_form_load(form_id):
     form = models.Form.query.get(form_id)
     return str(form.jsonify()) # TODO: make all jsonify()'s actually return json
+
+
+@app.route('/<string:model_name>/name/<string:name>')
+def search( model_name,name):
+    model = get_model_from_string(model_name)
+    rows = model.query.filter(model.name.ilike('%{}%'.format(name))).order_by(model.name).all()
+    return dump_to_json(rows)
 
 
 
