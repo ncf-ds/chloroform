@@ -1,4 +1,4 @@
-from chloroform.database import db
+from chloroform import db
 
 class Choice(db.Model):
     id = db.Column(db.Integer, primary_key=True)
