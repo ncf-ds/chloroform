@@ -81,6 +81,13 @@ def search( model_name,name):
     return dump_to_json(rows)
 
 
+# curl localhost:5000/questions/1/choices
+@app.route('/<string:model_name>/<int:model_id>/<string:relationship_name>')
+def relationship_index(model_name, model_id, relationship_name):
+    model = get_model_from_string(model_name)
+    instance = model.query.get(model_id)
+    rows = getattr(instance, relationship_name)
+    return dump_to_json(rows)
 
 
 
