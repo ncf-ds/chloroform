@@ -14,7 +14,7 @@ mainApp.controller('ClientCtrl', [ '$scope', '$http', 'searchService',
             $scope.showClientNew = false;
             $scope.clientNew= null;
             $scope.createModel = function(model) {
-                return $http.post('/clients/'+model, '', {
+                return $http.post('/clients?name=' + model, '', {
                     params : {}
                 }).then(function(response){
                         console.log(response);
