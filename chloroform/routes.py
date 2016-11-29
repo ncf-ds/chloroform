@@ -46,7 +46,7 @@ def show(model_name, model_id,title):
         return dump_to_json(rows)
 
 # curl --data "name=new_client" localhost:5000/clients
-@app.route('/<string:model_name>', methods=['POST'])
+@app.route('/<string:model_name>/', methods=['POST'])
 def create(model_name):
     model = get_model_from_string(model_name)
     instance = model(**request.form.to_dict())
