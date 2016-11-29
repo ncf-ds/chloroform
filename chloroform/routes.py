@@ -74,10 +74,10 @@ def destroy(model_name, model_id):
     return "success\n"
 
 
-@app.route('/<string:model_name>/name/<string:name>')
-def search( model_name,name):
+@app.route('/<string:model_name>/search/<string:search_text>')
+def search(model_name, search_text):
     model = get_model_from_string(model_name)
-    rows = model.query.filter(model.name.ilike('%{}%'.format(name))).order_by(model.name).all()
+    rows = model.query.filter(getattr(model, model.searchable_field).ilike('%{}%'.format(search_text))).order_by(getattr(model, model.searchable_field)).all()
     return dump_to_json(rows)
 
 

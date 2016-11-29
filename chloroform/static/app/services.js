@@ -3,9 +3,9 @@
  */
 mainApp.factory("searchService", [ '$http', function($http) {
 	
-	// Search given model by name field
+	// Search given model by textsearchable field defined in models
 	var _searchModel = function(model,searchTerm) {
-		return $http.get('/'+model+'/name/'+searchTerm, {
+		return $http.get('/'+model+'/search/'+searchTerm, {
 			params : {}
 		}).then(function(response) {
 			console.log(response);
