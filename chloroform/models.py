@@ -47,7 +47,6 @@ class Form(db.Model):
 
     def __init__(self, title):
         self.title = title
-        self.searchable_field = self.title
 
 
 class Madlib(db.Model):
