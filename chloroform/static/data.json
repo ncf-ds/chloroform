@@ -1,0 +1,133 @@
+{
+   "type":"question_group",
+   "title":"The Original Form",
+   "children":[
+      {
+         "type":"question_group",
+         "title":"First Questions",
+         "children":[
+            {
+               "type":"question",
+               "text":"Hungry for ${food}?",
+               "question_type":"radio",
+               "selected":null,
+               "choices":[
+                  "Yes",
+                  "No"
+               ],
+               "madlibs":{
+                  "food":{
+                     "text":"apples",
+                     "id":23
+                  }
+               }
+            },
+            {
+               "type":"question",
+               "text":"How do you feel?",
+               "question_type":"radio",
+               "choices":[
+                  "${feeling1}",
+                  "${feeling2}",
+                  "No answer"
+               ],
+               "madlibs":{
+                  "feeling1":{
+                     "text":"Horrible",
+                     "id":26
+                  },
+                  "feeling2":{
+                     "text":"Awesome",
+                     "id":24
+                  }
+               }
+            }
+         ]
+      },
+      {
+         "type":"question_group",
+         "title":"The Questions after the First",
+         "children":[
+            {
+               "type":"question",
+               "text":"Have you seen any of the following ${category}?",
+               "question_type":"checkbox",
+               "choices":[
+                  "${choice1}",
+                  "${choice2}",
+                  "${choice3}"
+               ],
+               "madlibs":{
+                  "category":{
+                     "text":"fruits",
+                     "id":44
+                  },
+                  "choice1":{
+                     "text":"oranges",
+                     "id":45
+                  },
+                  "choice2":{
+                     "text":"kiwis",
+                     "id":46
+                  },
+                  "choice3":{
+                     "text":"mangoes",
+                     "id":47
+                  }
+               }
+            },
+            {
+               "type":"question",
+               "text":"Would you rather have ${superpower1} or ${superpower2}?",
+               "question_type":"radio",
+               "choices":[
+                  "${superpower1}",
+                  "${superpower2}"
+               ],
+               "madlibs":{
+                  "superpower1":{
+                     "text":"x-ray vision",
+                     "id":31
+                  },
+                  "superpower2":{
+                     "text":"the ability to fly",
+                     "id":32
+                  }
+               }
+            }
+         ]
+      },
+      {
+         "type":"question_group",
+         "title":"Turd Questions",
+         "children":[
+            {
+               "type":"question",
+               "text":"How much ${euphemism1} would a ${euphemism1}${euphemism2} ${euphemism2} if a ${euphemism1}${euphemism2} could ${euphemism2} ${euphemism1}?",
+               "question_type":"textinput",
+               "madlibs":{
+                  "euphemism1":{
+                     "text":"wood",
+                     "id":14
+                  },
+                  "euphemism2":{
+                     "text":"chuck",
+                     "id":13
+                  }
+               }
+            },
+            {
+               "type":"question",
+               "text":"What are your feelings on ${controversy}?",
+               "question_type":"textarea",
+               "madlibs":{
+                  "controversy":{
+                     "text":"the election",
+                     "id":11
+                  }
+               }
+            }
+         ]
+      }
+   ]
+}

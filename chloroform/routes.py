@@ -36,7 +36,7 @@ def index():
 # curl localhost:5000/clients/1
 @app.route('/<string:model_name>/', defaults={'model_id': None})
 @app.route('/<string:model_name>/<int:model_id>')
-def show(model_name, model_id,title):
+def show(model_name, model_id):
     model = get_model_from_string(model_name)
     if (model_id):
         instance = model.query.get(model_id)

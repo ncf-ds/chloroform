@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container" >
-{% include 'clients.html' %}
+<div class="row control-group">
+	{% include 'clients.html' %}
+	{% include 'form.html' %}
+</div>
+<div class="row control-group" style="margin-top: 10px;">
+	{% include 'form_edit.html' %}
+</div>
 </div>
 {% endblock %}
