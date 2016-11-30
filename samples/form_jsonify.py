@@ -4,9 +4,15 @@ import sys
 # adding root of project to sys path
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from app.database import db
-from app.models import *
+from chloroform.database import db
+from chloroform.models import *
+from chloroform.views import app
+import json
 
+curl = app.test_client()
+
+def load_response(response):
+    return json.loads(response.data.decode())
 
 form = Form("Firstiest")
 form.question_group = QuestionGroup("Question Group title 1")
@@ -18,4 +24,10 @@ db.session.commit()
 
 
 form = Form.query.order_by(Form.id.desc()).first()    
+
+# TODO: assert that form.jsonify() returns the values above by
+#   creating single dict and referencing it on create and validate
 form.jsonify()
+response = load_response(curl.get('/forms/' + str(form.id) + '/edit'))
+assert response['id'] == form.id
+assert response['type'] == 'form'

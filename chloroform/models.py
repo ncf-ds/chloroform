@@ -49,8 +49,11 @@ class Form(db.Model):
         self.title = title
 
     def jsonify(self):
-        return self.question_group.jsonify()
-
+        return {
+            "id": self.id,
+            "type": "form",
+            "form_question_group": self.question_group.jsonify()
+        }
 
 class Madlib(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -68,7 +71,7 @@ class Madlib(db.Model):
 
     def jsonify(self):
         return {
-            "text": self.text, 
+            "text": self.word, 
             "id": self.id
         }
 
@@ -88,7 +91,11 @@ class QuestionGroup(db.Model):
         self.title = title
 
     def question_groups(self):
-        return QuestionGroup.query.filter(QuestionGroup.parent_id == self.id).all()
+        if self.id:
+            return QuestionGroup.query.filter(QuestionGroup.parent_id == self.id).all()
+        else:
+            return []
+
 
     # TODO: add proper ordering
     def children(self):
