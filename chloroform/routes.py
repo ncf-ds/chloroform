@@ -49,7 +49,7 @@ def show(model_name, model_id,title):
 @app.route('/<string:model_name>/', methods=['POST'])
 def create(model_name):
     model = get_model_from_string(model_name)
-    instance = model(**request.form.to_dict())
+    instance = model(**request.json)
     db.session.add(instance)
     db.session.commit()
     return "success\n"
@@ -59,7 +59,7 @@ def create(model_name):
 def update(model_name, model_id):
     model = get_model_from_string(model_name)
     instance = model.query.filter(model.id == model_id)
-    instance.update(request.form)
+    instance.update(request.json)
     db.session.commit()
     return "success\n"
 
