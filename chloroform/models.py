@@ -10,6 +10,10 @@ class Choice(db.Model):
     def __init__(self, text):
         self.text = text
 
+    def copy(self):
+        new_choice    =  Choice(self.text)
+        db.session.add(new_choice)
+        db.session.commit()
 
 
 class ChoiceTemplate(db.Model):
@@ -62,7 +66,10 @@ class Madlib(db.Model):
         self.word = word
         self.word_type = word_type
 
-    
+    def copy(self):
+        new_madlib    =  Madlib(self.word, self.word_type)
+        db.session.add(new_madlib)
+        db.session.commit()
 
 
 class QuestionGroup(db.Model):
@@ -75,13 +82,21 @@ class QuestionGroup(db.Model):
     def __init__(self):
         pass
 
+    def copy(self):
+        question_groups = [question_group.copy() for question_group in self.question_groups()]
+        questions = [question.copy() for question in self.questions()]
+        new_qg    =  QuestionGroup() 
+        new_qg.questions = questions
+        new_qg.question_groups  = question_groups
+        db.session.add(new_qg)
+        db.session.commit()
 
 
 class QuestionGroupTemplate(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     template = db.Column(db.Text)
     version = db.Column(db.Integer, default = 0)
-
+    question_template_id = db.Column(db.Integer, db.ForeignKey('question_group_template.id'))
     def __init__(self, template):
         self.template = template
 
@@ -95,6 +110,16 @@ class Question(db.Model):
 
     def __init__(self, text):
         self.text = text
+
+    def copy(self):
+        choices = [choice.copy() for choice in self.choices()]
+        madlibs = [madlib.copy() for madlib in self.madlibs()]
+        new_q    =  Question() 
+        new_q.choices = choices
+        new_q.madlibs = madlibs
+        new_q.text = self.text
+        db.session.add(new_q)
+        db.session.commit()
 
 
 

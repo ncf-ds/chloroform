@@ -45,6 +45,12 @@ def show(model_name, model_id,title):
         rows = model.query.all()
         return dump_to_json(rows)
 
+@app.route('/<string>:model_name>/<int:model_id>', methods=['POST'])
+def form_create(form_name, form_id, client_id):
+    form = Form().get(form_id)
+    form.copy()
+
+
 # curl --data "name=new_client" localhost:5000/clients
 @app.route('/<string:model_name>', methods=['POST'])
 def create(model_name):
