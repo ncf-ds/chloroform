@@ -1,12 +1,10 @@
-<div ng-controller="ClientCtrl" class="row">
-	<div class="col-xs-4">
-	<h4>Select client</h4>
-	<input type="text" ng-model="clientSelected" placeholder="client name"
-		uib-typeahead="c.name for c in getClients($viewValue)"
+<div ng-controller="ClientCtrl" class="col-xs-4">
+	<label>Select client</label>
+	<input type="text" ng-model="clientSelected" typeahead-on-select="onSelect()" placeholder="client name" 
+		uib-typeahead="c as c.name for c in getClients($viewValue)"
 		typeahead-loading="loadingClients" typeahead-no-results="noResults"
 		class="form-control"> <i ng-show="loadingClients" class="glyphicon glyphicon-refresh"></i>
 	<div ng-show="noResults">
 		<i class="glyphicon glyphicon-remove"></i> No Results Found
-	</div>
 	</div>
 </div>
