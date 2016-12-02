@@ -71,6 +71,8 @@ class QuestionGroup(db.Model):
     parent_id = db.Column(db.Integer, db.ForeignKey('question_group.id'))
     question_group_template_id = db.Column(db.Integer, db.ForeignKey('question_group_template.id'))
     forms = db.relationship('Form', backref='question_group')
+    questions = db.relationship('Question')
+
 
     def __init__(self):
         pass
@@ -92,6 +94,8 @@ class Question(db.Model):
     text = db.Column(db.Text)
     question_group_id = db.Column(db.Integer, db.ForeignKey('question_group.id'))
     choices = db.relationship('Choice', backref='question')
+    madlibs = db.relationship('Madlib', backref='question')
+
 
     def __init__(self, text):
         self.text = text
