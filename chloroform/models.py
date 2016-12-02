@@ -71,6 +71,7 @@ class QuestionGroup(db.Model):
     parent_id = db.Column(db.Integer, db.ForeignKey('question_group.id'))
     question_group_template_id = db.Column(db.Integer, db.ForeignKey('question_group_template.id'))
     forms = db.relationship('Form', backref='question_group')
+    questions = db.relationship('Question', backref='question_group')
 
     def __init__(self):
         pass

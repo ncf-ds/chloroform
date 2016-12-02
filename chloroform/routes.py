@@ -82,7 +82,7 @@ def search( model_name,name):
 
 
 # curl localhost:5000/questions/1/choices
-@app.route('/<string:model_name>/<int:model_id>/<string:relationship_name>')
+@app.route('/<string:model_name>/<int:model_id>/<string:relationship_name>', methods=['GET'])
 def relationship_index(model_name, model_id, relationship_name):
     model = get_model_from_string(model_name)
     instance = model.query.get(model_id)
@@ -90,4 +90,20 @@ def relationship_index(model_name, model_id, relationship_name):
     return dump_to_json(rows)
 
 
-
+@app.route('/<string:model_name>/<int:model_id>/<string:relationship_name>/<int:relationship_id>', methods=['POST'])
+def relationship_create(model_name, model_id, relationship_name, relationship_id):
+    model = get_model_from_string(model_name)
+    rel_model = get_model_from_string(relationship_name)
+    instance = model.query.get(model_id)
+    rel_instance = rel_model.query.get(relationship_id)
+    db.session.add(instance)
+    # model has many rel_model
+    if hasattr(instance, relationship_name):
+        getattr(instance, relationship_name).append(rel_instance)
+    # model has one rel_model
+    elif hasattr(instance, relationship_name[:-1]):
+        setattr(instance, relationship_name, rel_instance)
+    else:
+        return "Did not find relationship between both models\n"
+    db.session.commit()
+    return "success\n"
