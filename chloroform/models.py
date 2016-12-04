@@ -61,6 +61,8 @@ class Madlib(db.Model):
     word_type = db.Column(db.Text)
     version = db.Column(db.Integer, default = 0)
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
+    question_associations = db.relationship("QuestionMadlib", back_populates="madlib")
+
 
     def __init__(self, placeholder, word, word_type):
         self.placeholder = placeholder
@@ -119,10 +121,11 @@ class QuestionGroupTemplate(db.Model):
 
 
 class QuestionMadlib(db.Model):
-    question_id = db.Column(db.Integer, db.ForeignKey('question.id'),primary_key = True)
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id'), primary_key = True)
     madlib_id = db.Column(db.Integer, db.ForeignKey('madlib.id'), primary_key = True)
     key = db.Column(db.Text)
-    madlib = db.relationship('Madlib')
+    madlib = db.relationship('Madlib', back_populates="question_associations")
+    question = db.relationship('Question', back_populates="madlib_associations")
 
     def __init__(self,key):
         self.key = key
@@ -133,7 +136,8 @@ class Question(db.Model):
     question_group_id = db.Column(db.Integer, db.ForeignKey('question_group.id'))
     choices = db.relationship('Choice', backref='question')
     question_type = db.Column(db.Text)
-    madlibs = db.relationship('QuestionMadlib')
+    madlib_associations = db.relationship("QuestionMadlib", back_populates="question")
+
 
     def __init__(self, text, question_type):
         self.text = text
@@ -142,7 +146,8 @@ class Question(db.Model):
 
     def madlibs_as_dict(self):
         new_dict = {}
-        for madlib in self.madlibs:
+        for madlib_association in self.madlib_associations:
+            madlib = madlib_association.madlib
             new_dict[madlib.placeholder] = madlib.jsonify()
         return new_dict
 

@@ -18,7 +18,7 @@ def load_response(response, check_success = False):
     return loaded_response
 
 def test_route(url, data):
-    return load_response(curl.post(url, data=data), check_success=True)
+    return load_response(curl.post(url, data=json.dumps(data), content_type='application/json'), check_success=True)
 
 
 def test_crud(route, initial_data, field_to_update):
@@ -54,7 +54,7 @@ test_crud('/madlibs', {
 test_crud('/questions', {"question_type": RANDOM_TEXT[0], "text": RANDOM_TEXT[0]}, 'text')
 
 # Retail Chains
-test_crud('/retail_chains', {"name": RANDOM_TEXT[0]}, 'name')
+test_crud('/form_contexts', {"name": RANDOM_TEXT[0]}, 'name')
 
 
 # QuestionGroups
