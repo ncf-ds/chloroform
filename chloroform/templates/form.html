@@ -1,0 +1,6 @@
+<div ng-controller="FormCtrl" class="col-xs-4" ng-show="client()">
+			<label>Select form</label> 
+			<select ng-model="selectedForm" class="form-control" ng-change="loadForm()" ng-options="form as form.title for form in forms() | filter: {client_id:selectedClient().id}">
+				<option value="">-- new form --</option>
+			</select>
+</div>

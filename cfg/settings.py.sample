@@ -1,0 +1,3 @@
+# Copy this file to settings.py and edit
+
+SQLALCHEMY_DATABASE_URI= 'postgresql://postgres:@localhost/chloroform'
