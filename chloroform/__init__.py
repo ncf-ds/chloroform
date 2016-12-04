@@ -11,4 +11,4 @@ elif os.path.isfile(local_settings):
     print("loading config from {0}".format(local_settings))
     app.config.from_pyfile(local_settings)
 db = SQLAlchemy(app)
-from chloroform import routes
+from chloroform import views
