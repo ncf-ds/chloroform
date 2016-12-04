@@ -6,11 +6,11 @@ class Choice(db.Model):
     text = db.Column(db.Text)
     question_id = db.Column(db.Integer, db.ForeignKey('question.id'))
     choice_template_id = db.Column(db.Integer, db.ForeignKey('choice_template.id'))
+    searchable_field = 'text'
 
 
     def __init__(self, text):
         self.text = text
-
 
 
 class ChoiceTemplate(db.Model):
@@ -19,6 +19,7 @@ class ChoiceTemplate(db.Model):
     version = db.Column(db.Integer, default=0)
     question_template_id = db.Column(db.Integer, db.ForeignKey('question_template.id'))
     choices = db.relationship('Choice', backref='choice_template')
+    searchable_field = 'template'
 
     def __init__(self, template):
         self.template = template
@@ -28,11 +29,11 @@ class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, unique=True)
     forms = db.relationship('Form', backref='client')
+    searchable_field = 'name'
+
 
     def __init__(self, name):
         self.name = name
-
-
 
 
 class Form(db.Model):
@@ -42,10 +43,12 @@ class Form(db.Model):
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
     question_group_id = db.Column(db.Integer, db.ForeignKey('question_group.id'))
     form_context_id = db.Column(db.Integer, db.ForeignKey('form_context.id'))
+    searchable_field = 'title'
 
 
     def __init__(self, title):
         self.title = title
+
 
     def jsonify(self):
         return {
@@ -53,6 +56,8 @@ class Form(db.Model):
             "type": "form",
             "form_question_group": self.question_group.jsonify()
         }
+
+
 
 class Madlib(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -62,12 +67,14 @@ class Madlib(db.Model):
     version = db.Column(db.Integer, default = 0)
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
     question_associations = db.relationship("QuestionMadlib", back_populates="madlib")
+    searchable_field = 'word'
 
 
     def __init__(self, placeholder, word, word_type):
         self.placeholder = placeholder
         self.word = word
         self.word_type = word_type
+    
 
     def jsonify(self):
         return {
@@ -115,6 +122,7 @@ class QuestionGroupTemplate(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     template = db.Column(db.Text)
     version = db.Column(db.Integer, default = 0)
+    searchable_field = 'template'
 
     def __init__(self, template):
         self.template = template
@@ -137,6 +145,7 @@ class Question(db.Model):
     choices = db.relationship('Choice', backref='question')
     question_type = db.Column(db.Text)
     madlib_associations = db.relationship("QuestionMadlib", back_populates="question")
+    searchable_field = 'text'
 
 
     def __init__(self, text, question_type):
@@ -169,6 +178,7 @@ class QuestionTemplate(db.Model):
     version = db.Column(db.Integer, default = 0)
     question_group_template_id = db.Column(db.Integer, db.ForeignKey('question_group_template.id'))
     choice_templates = db.relationship('ChoiceTemplate')
+    searchable_field = 'template'
 
     def __init__(self, template):
         self.template = template
@@ -179,9 +189,8 @@ class FormContext(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
     forms = db.relationship('Form', backref='form_context')
-
+    searchable_field = 'name'
 
     def __init__(self, name):
         self.name = name
-
 
