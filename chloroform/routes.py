@@ -3,7 +3,7 @@ from flask import request
 from flask import jsonify
 from flask import Flask,render_template
 from chloroform import app
-from chloroform.database import db
+from chloroform import db
 from chloroform import models
 
 def get_model_from_string(string_model):
