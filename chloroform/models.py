@@ -1,4 +1,4 @@
-from chloroform.database import db
+from chloroform import db
 
 
 class Choice(db.Model):
@@ -24,7 +24,6 @@ class ChoiceTemplate(db.Model):
         self.template = template
 
 
-
 class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, unique=True)
@@ -42,7 +41,7 @@ class Form(db.Model):
     version = db.Column(db.Integer, default = 0)
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
     question_group_id = db.Column(db.Integer, db.ForeignKey('question_group.id'))
-    retail_chain_id = db.Column(db.Integer, db.ForeignKey('retail_chain.id'))
+    form_context_id = db.Column(db.Integer, db.ForeignKey('form_context.id'))
 
 
     def __init__(self, title):
@@ -62,7 +61,6 @@ class Madlib(db.Model):
     word_type = db.Column(db.Text)
     version = db.Column(db.Integer, default = 0)
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
-    question_id = db.Column(db.Integer, db.ForeignKey('question.id'))
 
     def __init__(self, placeholder, word, word_type):
         self.placeholder = placeholder
@@ -76,7 +74,6 @@ class Madlib(db.Model):
         }
 
     
-
 
 class QuestionGroup(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -121,6 +118,14 @@ class QuestionGroupTemplate(db.Model):
         self.template = template
 
 
+class QuestionMadlib(db.Model):
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id'),primary_key = True)
+    madlib_id = db.Column(db.Integer, db.ForeignKey('madlib.id'), primary_key = True)
+    key = db.Column(db.Text)
+    madlib = db.relationship('Madlib')
+
+    def __init__(self,key):
+        self.key = key
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -128,7 +133,7 @@ class Question(db.Model):
     question_group_id = db.Column(db.Integer, db.ForeignKey('question_group.id'))
     choices = db.relationship('Choice', backref='question')
     question_type = db.Column(db.Text)
-    madlibs = db.relationship('Madlib', backref='madlib')
+    madlibs = db.relationship('QuestionMadlib')
 
     def __init__(self, text, question_type):
         self.text = text
@@ -153,7 +158,6 @@ class Question(db.Model):
 
 
 
-
 class QuestionTemplate(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     template = db.Column(db.Text)
@@ -166,10 +170,10 @@ class QuestionTemplate(db.Model):
 
 
 
-class RetailChain(db.Model):
+class FormContext(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
-    forms = db.relationship('Form', backref='retail_chain')
+    forms = db.relationship('Form', backref='form_context')
 
 
     def __init__(self, name):

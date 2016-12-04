@@ -2,7 +2,7 @@ from flask import request
 from flask import jsonify
 from flask import Flask, render_template
 from chloroform import app
-from chloroform.database import db
+from chloroform import db
 from chloroform import models
 
 SUCCESS_MESSAGE = "success"
@@ -84,7 +84,7 @@ def model_show(model_name, model_id):
 @app.route('/<string:model_name>', methods=['POST'])
 def model_create(model_name):
     model = get_model_from_string(model_name)
-    instance = model(**request.form.to_dict())
+    instance = model(**request.json)
     db.session.add(instance)
     db.session.commit()
     return jsonify({"message": SUCCESS_MESSAGE, "id": instance.id})
@@ -95,7 +95,7 @@ def model_create(model_name):
 def model_update(model_name, model_id):
     model = get_model_from_string(model_name)
     instance = model.query.filter(model.id == model_id)
-    instance.update(request.form)
+    instance.update(request.json)
     db.session.commit()
     return jsonify({"message": SUCCESS_MESSAGE})
 
