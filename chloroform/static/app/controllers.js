@@ -16,10 +16,7 @@ mainApp.controller('ClientCtrl', [ '$scope', '$http', 'searchService','formServi
                 return $http.post('/clients/', {
                     name: name
                 }).then(function(response){
-                    console.log(response);
-                    return response.data.map(function(item){
-                        return item;
-                    });
+                    window.alert('clients saved');
                 });
             };
 		} ]);
