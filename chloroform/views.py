@@ -51,13 +51,15 @@ def edit_form_load(form_id):
     form = models.Form.query.get(form_id)
     return jsonify(form.jsonify()) # TODO: make all model.jsonify()'s actually return json
 
-@app.route('/<string:model_name>/name/<string:name>')
-def search( model_name,name):
+
+
+# Search for particular text field for any table (set in models)
+
+@app.route('/<string:model_name>/search/<string:search_text>')
+def search(model_name, search_text):
     model = get_model_from_string(model_name)
-    rows = model.query.filter(model.name.ilike('%{}%'.format(name))).order_by(model.name).all()
+    rows = model.query.filter(getattr(model, model.searchable_field).ilike('%{}%'.format(search_text))).order_by(getattr(model, model.searchable_field)).all()
     return dump_to_json(rows)
-
-
 
 
 
@@ -109,13 +111,6 @@ def model_destroy(model_name, model_id):
     instance.delete()
     db.session.commit()
     return jsonify({"message": SUCCESS_MESSAGE})
-
-
-@app.route('/<string:model_name>/search/<string:search_text>')
-def search(model_name, search_text):
-    model = get_model_from_string(model_name)
-    rows = model.query.filter(getattr(model, model.searchable_field).ilike('%{}%'.format(search_text))).order_by(getattr(model, model.searchable_field)).all()
-    return dump_to_json(rows)
 
 
 
