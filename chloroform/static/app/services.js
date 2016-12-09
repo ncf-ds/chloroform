@@ -42,6 +42,11 @@ mainApp.factory("formService", [ '$http','$sce', function($http,$sce) {
 		}).then(function(response) {
 			_form = response.data;
 		});
+//		$http.get('/static/data.json', {
+//			params : {}
+//		}).then(function(response) {
+//			_form = response.data;
+//		});
 	};
 	var _createElement = function(question,index){
 		q = question;
