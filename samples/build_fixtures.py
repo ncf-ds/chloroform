@@ -49,8 +49,9 @@ question_group2 = QuestionGroup("QuestGroup title")
 
 question_group1.question_groups = [question_group2]
 
-question_group1.questions = [question1]
-question_group2.questions = [question2, question3]
+question_group2.questions = [question1, question2, question3]
+# question_group1.questions = [question1]
+# question_group2.questions = [question2, question3]
 
 form.question_group = question_group1
 
@@ -98,8 +99,9 @@ question_group2 = QuestionGroup("QuestGroup title")
 
 question_group1.question_groups = [question_group2]
 
-question_group1.questions = [question1]
-question_group2.questions = [question2, question3]
+question_group2.questions = [question1, question2, question3]
+# question_group1.questions = [question1]
+# question_group2.questions = [question2, question3]
 
 form.question_group = question_group1
 
@@ -159,15 +161,16 @@ question_group2 = QuestionGroup("QuestGroup title")
 
 question_group1.question_groups = [question_group2]
 
-question_group1.questions = [question1]
-question_group2.questions = [question2, question3, question4]
+question_group2.questions = [question1, question2, question3, question4]
+# question_group1.questions = [question1]
+# question_group2.questions = [question2, question3, question4]
 
 form.question_group = question_group1
 
 
 #   Add to session
 db.session.add(form)
-db.session.add(question_group2)
+# db.session.add(question_group2)
 db.session.add(question2)
 db.session.add(question3)
 db.session.add(question4)
