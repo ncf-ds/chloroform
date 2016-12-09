@@ -9,6 +9,5 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from chloroform.models import *
 from chloroform import db
-
 db.create_all()
 db.session.commit()
