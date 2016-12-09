@@ -16,10 +16,17 @@ def load_response(response):
 
 form = Form("Firstiest")
 form.question_group = QuestionGroup("Question Group title 1")
-form.question_group.questions = [Question("How much ${euphemism1} would a ${euphemism1}${euphemism2} ${euphemism2} if a ${euphemism1}${euphemism2} could ${euphemism2} ${euphemism1}?", "radio")]
+form.question_group.questions = [Question("How much ${euphemism1} would a ${euphemism1}${euphemism2} ${euphemism2} if a ${euphemism1}${euphemism2} could ${euphemism2} ${euphemism1}?")]
 form.question_group.questions[0].choices = [Choice("One Please"), Choice("No")]
-form.question_group.questions[0].madlibs = [Madlib("euphemism1", "wood", "keyword"), Madlib("euphemism2", "chuck", "keyword")]
+quest_mad1 = QuestionMadlib("euphemism1")
+quest_mad2 = QuestionMadlib("euphemism2")
+quest_mad1.madlib = Madlib("wood")
+quest_mad2.madlib = Madlib("chuck")
+
+form.question_group.questions[0].madlib_associations = [quest_mad1, quest_mad2]
 db.session.add(form)
+db.session.add(quest_mad1)
+db.session.add(quest_mad2)
 db.session.commit()
 
 
