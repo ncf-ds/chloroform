@@ -2,7 +2,7 @@
 	<uib-accordion close-others="false"> 
 	{%raw%}
 	<div uib-accordion-group class="panel-default"
-		ng-repeat="qg in currentForm().form_question_group.children" heading="{{qg.title}}">
+		ng-repeat="qg in currentForm().children" heading="{{qg.title}}">
 		<div ng-repeat="q in qg.children" ng-bind-html="getHtml(q,$index)"></div>
 		<div ng-repeat="q in qg.children">
 			<question-dir></question-dir>

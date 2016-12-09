@@ -51,11 +51,12 @@ class Form(db.Model):
 
 
     def jsonify(self):
-        return {
-            "id": self.id,
-            "type": "form",
-            "form_question_group": self.question_group.jsonify()
-        }
+        # return {
+        #     "id": self.id,
+        #     "type": "form",
+        #     "form_question_group": self.question_group.jsonify()
+        # }
+        return self.question_group.jsonify()
 
 
 
@@ -186,4 +187,3 @@ class FormContext(db.Model):
 
     def __init__(self, name):
         self.name = name
-
