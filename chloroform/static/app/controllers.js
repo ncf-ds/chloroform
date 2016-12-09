@@ -10,7 +10,15 @@ mainApp.controller('ClientCtrl', [ '$scope', '$http', 'searchService','formServi
 				formService.setForm(null);
 				return searchService.searchModel('clients', val);
 			};
-
+            $scope.showClientNew = false;
+            $scope.clientNew= null;
+            $scope.createModel = function(name) {
+                return $http.post('/clients/', {
+                    name: name
+                }).then(function(response){
+                    window.alert('clients saved');
+                });
+            };
 		} ]);
 
 // forms
