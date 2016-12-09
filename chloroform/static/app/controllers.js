@@ -10,15 +10,27 @@ mainApp.controller('ClientCtrl', [ '$scope', '$http', 'searchService','formServi
 				formService.setForm(null);
 				return searchService.searchModel('clients', val);
 			};
-            $scope.showClientNew = false;
-            $scope.clientNew= null;
-            $scope.createModel = function(name) {
-                return $http.post('/clients/', {
-                    name: name
-                }).then(function(response){
-                    window.alert('clients saved');
-                });
-            };
+            $scope.newClientName = null;
+            $scope.isNew= false;
+            $scope.createClient = function(){
+            	$scope.isNew= true;
+            	$scope.newClientName = null;
+			};
+			$scope.saveClient = function(){
+				if (!$scope.newClientName)
+				{alert("Client name is required!");
+				return;
+				}
+				$http.post('/clients',{name:$scope.newClientName})
+				.then(function(){
+					alert("Client created successfully.");
+				},function(){
+					alert("Failed to create new client!");
+				})
+				.finally(function(){
+	            	$scope.isNew= false;
+				});
+			}
 		} ]);
 
 // forms

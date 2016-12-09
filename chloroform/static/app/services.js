@@ -59,11 +59,11 @@ mainApp.factory("formService", [ '$http','$sce', function($http,$sce) {
 		return $sce.trustAsHtml(q.html);
 	};
 	
-    $http.get('/forms', {
-			params : {}
-		}).then(function(response) {
-			_forms = response.data;
-		});
+//    $http.get('/forms/', {
+//			params : {}
+//		}).then(function(response) {
+//			_forms = response.data;
+//		});
 
 	return {
 		getForm : _getForm,

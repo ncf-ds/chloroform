@@ -1,25 +1,18 @@
-<div ng-controller="ClientCtrl" class="row">
-	<div class="col-xs-4">
-	<h4>Select client</h4>
-	<input type="text" ng-model="clientSelected" placeholder="client name"
-		uib-typeahead="c.name for c in getClients($viewValue)"
-		typeahead-loading="loadingClients" typeahead-no-results="noResults"
-		class="form-control"> <i ng-show="loadingClients" class="glyphicon glyphicon-refresh"></i>
-	<div ng-show="noResults">
-		<i class="glyphicon glyphicon-remove"></i> No Results Found
-	</div>
-	</div>
-    <div class="col-xs-4">
-	<button type="button" class="btn btn-primary" ng-model="showClientNew" 
-        uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
-        New Client 
-    </button>
-    <input type="text" ng-show="showClientNew" placeholder="new client name" ng-model='clientNew'> 
-    </div>
-    <div class="col-xs-4">
-	<button type="button" class="btn btn-primary" ng-model="saveClientNew" ng-show="showClientNew"
-        ng-click="createModel(clientNew)">
-        Save 
-    </button>
-
+<div ng-controller="ClientCtrl" class="col-xs-4 form-group">
+			<label ng-show="!isNew">Select client</label>
+			<label ng-show="isNew">New client</label>
+			 <input type="text"
+				ng-model="clientSelected" typeahead-on-select="onSelect()"
+				placeholder="search by name..."
+				uib-typeahead="c as c.name for c in getClients($viewValue)"
+				typeahead-loading="loadingClients" typeahead-no-results="noResults"
+				class="form-control" ng-show="!isNew"> <i ng-show="loadingClients"
+				class="glyphicon glyphicon-refresh"></i>
+			<div ng-show="noResults">
+				<i class="glyphicon glyphicon-remove"></i> No Results Found
+			</div>
+			<a class="btn btn-link btn-success" ng-click=createClient() ng-show="!isNew">create new</a>
+			<input type="text" class="form-control" ng-show="isNew" ng-model="newClientName" placeholder="new client name" required="required">
+			<a class="btn btn-sm btn-success" ng-click="saveClient()" ng-show="isNew">Save</a>
+			<a class="btn btn-sm btn-danger" ng-click="isNew=false" ng-show="isNew">Cancel</a>
 </div>
