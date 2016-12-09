@@ -70,10 +70,8 @@ class Madlib(db.Model):
     searchable_field = 'word'
 
 
-    def __init__(self, placeholder, word, word_type):
-        self.placeholder = placeholder
+    def __init__(self, word):
         self.word = word
-        self.word_type = word_type
     
 
     def jsonify(self):
@@ -92,20 +90,15 @@ class QuestionGroup(db.Model):
     question_group_template_id = db.Column(db.Integer, db.ForeignKey('question_group_template.id'))
     forms = db.relationship('Form', backref='question_group')
     questions = db.relationship('Question', backref='question')
+    parent = db.relationship('QuestionGroup', remote_side=id, backref='question_groups')
 
     def __init__(self, title):
         self.title = title
 
-    def question_groups(self):
-        if self.id:
-            return QuestionGroup.query.filter(QuestionGroup.parent_id == self.id).all()
-        else:
-            return []
-
 
     # TODO: add proper ordering
     def children(self):
-        return self.question_groups() + self.questions 
+        return (self.question_groups or []) + self.questions 
 
     def jsonify(self):
         return {
@@ -148,16 +141,16 @@ class Question(db.Model):
     searchable_field = 'text'
 
 
-    def __init__(self, text, question_type):
+    def __init__(self, text):
         self.text = text
-        self.question_type = question_type
+        # self.question_type = question_type
 
 
     def madlibs_as_dict(self):
         new_dict = {}
         for madlib_association in self.madlib_associations:
             madlib = madlib_association.madlib
-            new_dict[madlib.placeholder] = madlib.jsonify()
+            new_dict[madlib_association.key] = madlib.jsonify()
         return new_dict
 
 
@@ -165,7 +158,7 @@ class Question(db.Model):
         return {
             "type": "question", 
             "text": self.text,
-            "question_type": self.question_type, 
+            # "question_type": self.question_type, 
             "choices": [ choice.text for choice in self.choices ], 
             "madlibs": self.madlibs_as_dict()
         }

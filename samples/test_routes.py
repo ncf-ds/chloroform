@@ -45,13 +45,16 @@ test_crud('/forms', {'title': RANDOM_TEXT[0]}, 'title')
 
 # Madlibs
 test_crud('/madlibs', {
-    "placeholder": RANDOM_TEXT[0], 
-    "word_type": RANDOM_TEXT[0], 
+    # "placeholder": RANDOM_TEXT[0], 
+    # "word_type": RANDOM_TEXT[0], 
     "word": RANDOM_TEXT[0]
 }, 'word')
 
 # Questions
-test_crud('/questions', {"question_type": RANDOM_TEXT[0], "text": RANDOM_TEXT[0]}, 'text')
+test_crud('/questions', {
+    # "question_type": RANDOM_TEXT[0], 
+    "text": RANDOM_TEXT[0]
+}, 'text')
 
 # Retail Chains
 test_crud('/form_contexts', {"name": RANDOM_TEXT[0]}, 'name')

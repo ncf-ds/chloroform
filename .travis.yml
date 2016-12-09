@@ -14,5 +14,6 @@ before_script:
 script:
   - python ./samples/build_db.py
   - python ./samples/test_db.py
+  - python ./samples/build_fixtures.py
   - python ./samples/form_jsonify.py
   - python ./samples/test_routes.py
