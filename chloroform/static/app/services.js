@@ -37,7 +37,7 @@ mainApp.factory("formService", [ '$http','$sce', function($http,$sce) {
 		 _form = form;
 	};
 	var _loadForm = function(formID) {
-		 $http.get('/static/data.json', {
+		 $http.get('/forms/'+formID+'/edit', {
 			params : {}
 		}).then(function(response) {
 			_form = response.data;
@@ -49,21 +49,28 @@ mainApp.factory("formService", [ '$http','$sce', function($http,$sce) {
 		var match =null;
 		var order = index +1;
 		q.html = order+'- '+q.text;
+		madlibs = ['Display','Palermos Pepperoni Pizza','Palermos Sausage Pizza','Palermos Cheese Pizza','Shampoo'];
 		while (match = regExp.exec(q.html)){
 			var madlibItems = "item for item in q.madlibs";
 			var selectElement = '<select  ng-model="myAns">';
 			selectElement += '<option value="1">'+ q.madlibs[match[1]].text +'</option>';
+			angular.forEach(madlibs, function(value, key) {
+				  if (value != q.madlibs[match[1]].text){
+					  selectElement += '<option value="">'+ value +'</option>';
+				  };
+				});
 			selectElement += '</select>';			
 			q.html = q.html.replace(match[0],selectElement);	
 		};
 		return $sce.trustAsHtml(q.html);
 	};
 	
-//    $http.get('/forms/', {
-//			params : {}
-//		}).then(function(response) {
-//			_forms = response.data;
-//		});
+    $http.get('/forms', {
+			params : {}
+		}).then(function(response) {
+			_forms = response.data;
+		});
+
 
 	return {
 		getForm : _getForm,
